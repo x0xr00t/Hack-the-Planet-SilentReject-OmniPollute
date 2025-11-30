@@ -180,8 +180,6 @@ console.log({}.fuzzProperty); // Output: "🚨 FUZZ TEST SUCCESS: Property injec
 * [Target] ignored multiple reports despite the critical nature of the vulnerability.
 * Users and organizations deserve to know the risks.
 * Pressure on vendors, and organizations (also the GOV and MIL WINK) to patch the issue.
-* Communication Logs
-* (Attach screenshots/PDFs of emails proving ignored reports.)
 
 # 📢 Call to Action
 
