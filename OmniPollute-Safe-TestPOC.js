@@ -1,5 +1,8 @@
 // ============================================
 //  Prototype Pollution PoC (Safe Demo)
+//  Author Patrick Hoogeveen 
+//  AKA x0xr00t
+//
 //  Purpose: Demonstrate vulnerabilities detected in the scan
 //  Note: For responsible disclosure only
 // ============================================
