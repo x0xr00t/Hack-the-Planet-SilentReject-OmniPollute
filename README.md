@@ -2,7 +2,7 @@
 * Affecting Dutch Government, Intelligence Agencies, and Global Big Tech Logins
 
 ## 📌 Executive Summary
-* On [19-11-2025], a critical prototype pollution vulnerability was discovered in [Redacted Target Organization], affecting Dutch government login panels (military, medical, justice, police), US/EU intelligence agencies (CIA, FBI, Mossad), and global Big Tech platforms (Facebook, Twitter, etc.). Despite multiple attempts to responsibly disclose the issue, they  ignored all communications, leaving millions of users at risk.
+* On [26-11-2025], a critical prototype pollution vulnerability was discovered in [Redacted Target Organization], affecting Dutch government login panels (military, medical, justice, police), US/EU intelligence agencies (CIA, FBI, Mossad), and global Big Tech platforms (Facebook, Twitter, etc.). Despite multiple attempts to responsibly disclose the issue, they  ignored all communications, leaving millions of users at risk.
 This report provides:
 
 ## Technical details of the vulnerability (CWE-1321).
@@ -24,23 +24,23 @@ This report provides:
       Date
       Event
     
-      * [18-11-2025]
+      * [25-11-2025]
       * Applied for a role at [Target]. Rejected.
     
     
-      * [19-11-2025 03:33]
+      * [26-11-2025 03:33]
       * Discovered prototype pollution vulnerability in [Target].
     
     
-      * [19-11-2025 between 04:00-05:00 AM]
+      * [26-11-2025 between 04:00-05:00 AM]
       * Submitted detailed vulnerability report to [Target]. No response.
     
     
-      * [21-11-2025]
+      * [28-11-2025]
       * Sent follow-up fix. No response.
     
     
-      * [22-11-2025]
+      * [29-11-2025 | 30-11-2025]
       * Public disclosure after 3 days of silence (this report).
     
   ```
