@@ -1,8 +1,9 @@
-//===========================
-//  Author Patrick Hoogeveen 
-//  AKA x0xr00t
-//
-//===========================
+// ================================================
+// 🚨 Sl0ppyR00t Auth-Bypass-Testing PoC 
+// Demonstrates prototype pollution via Auth-Bypass
+// Author   : phoogeveen
+// AKA      : x0xr00t 
+// ================================================
 
 // Inject an "isAuthenticated" property into Object.prototype
 Object.prototype.isAuthenticated = true;
