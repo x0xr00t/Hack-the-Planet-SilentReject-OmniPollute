@@ -1,7 +1,9 @@
-//============================
-// Author : phoogeveen
-// AKA    : x0xr00t
-//===========================
+// ============================================
+// 🚨 Sl0ppyR00t overwrite-Testing PoC 
+// Demonstrates prototype pollution via method override 
+// Author   : phoogeveen
+// AKA      : x0xr00t 
+// ============================================
 
 // Override Array.prototype.map with a malicious function
 Array.prototype.map = function() {
