@@ -1,6 +1,8 @@
 // ============================================
-// 🚨 Sl0ppyR00t Fuzz-Testing PoC (Fully Working)
+// 🚨 Sl0ppyR00t Fuzz-Testing PoC 
 // Demonstrates prototype pollution via fuzz payloads
+// Author   : phoogeveen
+// AKA      : x0xr00t 
 // ============================================
 
 // --- Method 1: Direct Prototype Pollution (Works in Non-Strict Mode) ---
