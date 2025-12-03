@@ -1,8 +1,9 @@
-//===========================
-//  Author Patrick Hoogeveen 
-//  AKA x0xr00t
-//
-//===========================
+// ============================================
+// 🚨 Sl0ppyR00t hijack-Testing PoC 
+// Demonstrates prototype pollution via Method override hijack
+// Author   : phoogeveen
+// AKA      : x0xr00t 
+// ============================================
 
 // Override Array.prototype.toString
 Array.prototype.toString = function() {
