@@ -1,8 +1,9 @@
-//===========================
-//  Author Patrick Hoogeveen 
-//  AKA x0xr00t
-//
-//===========================
+// ======================================================
+// 🚨 Sl0ppyR00t Function-injection-Testing PoC 
+// Demonstrates prototype pollution via Function injects
+// Author   : phoogeveen
+// AKA      : x0xr00t 
+// =====================================================
 
 // Inject a malicious function into Object.prototype
 Object.prototype.execute = function() {
