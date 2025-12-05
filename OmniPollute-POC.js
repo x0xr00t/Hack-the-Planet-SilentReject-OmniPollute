@@ -181,4 +181,4 @@ log("  - Authentication bypasses");
 log("  - Remote code execution");
 log("  - Mass account takeovers");
 log("  - National security threats");
-log("\n%c📢 Contact: x0xr00t [patrick hoogeveen x0xr00t/Linkedin]", "color: #00ff88; font-weight: bold;");
+log("\n%c📢 Contact: x0xr00t [Patrick Hoogeveen/Linkedin]", "color: #00ff88; font-weight: bold;");
