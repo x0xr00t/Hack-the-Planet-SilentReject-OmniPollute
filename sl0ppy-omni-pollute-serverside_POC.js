@@ -249,6 +249,20 @@ if (appConfig.security) {
     appConfig.security.maxAttempts = 5;
 }
 
+
+// ========== FINAL MESSAGE ==========
+console.log("\n%c🚨 [SL0PPYR00T] FINAL WARNING:", "color: #ff0000; font-weight: bold; font-size: 16px;");
+console.log("%cThis exploit demonstrates CRITICAL vulnerabilities in:", "color: #ff0000; font-weight: bold;");
+console.log("  - Dutch Government Login Panels (Military, Justice, Police)");
+console.log("  - US/EU Intelligence Systems (CIA, FBI, Mossad)");
+console.log("  - Global Big Tech (Facebook, Twitter, etc.)");
+console.log("\n%c🛑 PATCH IMMEDIATELY or risk:", "color: #ff0000; font-weight: bold;");
+console.log("  - Authentication bypasses");
+console.log("  - Remote code execution");
+console.log("  - Mass account takeovers");
+console.log("  - National security threats");
+console.log("\n%c📢 Contact: x0xr00t [Patrick Hoogeveen/LinkedIn]", "color: #00ff88; font-weight: bold;");
+
 console.log("%c✅ Demo completed successfully!", "color: #00ff88; font-weight: bold;");
 console.log("%c📢 All demonstrations worked without recursion!", "color: #00ff88;");
 console.log("%c💡 Remember: This is for educational purposes only.", "color: #00ff88;");
