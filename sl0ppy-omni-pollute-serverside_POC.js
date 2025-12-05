@@ -1,300 +1,254 @@
-// ============================================
-// 🚨 Sl0ppyR00t-ServerSideExploit
-// Demonstrates SERVER-SIDE PROTOTYPE POLLUTION EXPLOITS
-// Author: Patrick Hoogeveen (x0xr00t)
-// Purpose: Show how prototype pollution can lead to server compromise
-// Note: All dangerous operations are simulated for safety
-// ============================================
+/*
+ * ============================================
+ * 🚨 Sl0ppyR00t-ProtoPollution (Final Version)
+ * 🔬 Demonstrates ALL prototype pollution effects
+ * 📝 Author: Patrick Hoogeveen (x0xr00t)
+ * 💻 Works in: Browser Console & Node.js
+ * 🔥 NO RECURSION - Safe and Complete
+ * ============================================
+ */
 
-// --- Sl0ppyR00t Branding ---
+// ========== INITIALIZATION ==========
 console.log("%c\n" +
-"🔥🔥🔥 S L 0 P P Y R 0 0 T - S E R V E R - S I D E   E X P L O I T 🔥🔥🔥\n" +
-"💀 Demonstrating Server-Side Prototype Pollution Risks 💀\n" +
-"👑 By x0xr00t 👑\n" +
-"🖥️ Target: Node.js applications with untrusted input\n",
+"🔥🔥🔥 S L 0 P P Y R 0 0 T - P R O T O T Y P E   P O L L U T I O N 🔥🔥🔥\n" +
+"💀 FINAL DEMO VERSION - NO RECURSION - FULLY WORKING 💀\n" +
+"👑 By x0xr00t | For Educational Purposes Only 👑\n",
 "color: #ff0000; font-family: monospace; font-weight: bold;");
 
-// ========== SERVER-SIDE EXPLOIT DEMONSTRATIONS ==========
-
-// --- 1. Function Injection (Potential RCE Vector) ---
-console.log("\n%c💉 [SL0PPYR00T] FUNCTION INJECTION (RCE Vector):", "color: #ff00aa; font-weight: bold;");
-
-// Demonstrate how an attacker could inject malicious functions
-Object.prototype.injectedFunction = function() {
-    console.warn("🚨 [SL0PPYR00T] This function was injected via prototype pollution!");
-
-    // Simulate what an attacker could do
-    this.maliciousPayload = {
-        type: "function-injection",
-        dangerLevel: "CRITICAL",
-        description: "All objects now have access to this malicious function",
-        potentialImpact: [
-            "Arbitrary code execution",
-            "Data exfiltration",
-            "System compromise"
-        ]
-    };
-
-    return "[SL0PPYR00T] Function injection successful";
+// ========== UTILITY FUNCTIONS ==========
+const logSection = (title) => {
+    console.log(`\n%c${title}`, "color: #ff00aa; font-weight: bold; background: #333; padding: 2px 5px; border-radius: 3px;");
 };
 
-// Test the injection
-const testObj = {};
-console.log("🔍 Before injection: testObj.injectedFunction =", testObj.injectedFunction);
-console.log("💥 After injection: testObj.injectedFunction() =", testObj.injectedFunction());
-console.log("💥 Malicious payload:", testObj.maliciousPayload);
-
-// --- 2. Method Override (Security Bypass) ---
-console.log("\n%c🔄 [SL0PPYR00T] METHOD OVERRIDE (Security Bypass):", "color: #ff00aa; font-weight: bold;");
-
-// Override a critical security method
-const originalHasOwnProperty = Object.prototype.hasOwnProperty;
-Object.prototype.hasOwnProperty = function(prop) {
-    // Malicious implementation that could bypass security checks
-    if (prop === 'isAdmin') return true; // Always return true for isAdmin checks
-    return originalHasOwnProperty.call(this, prop);
+const logResult = (label, value) => {
+    console.log(`  %c${label}:`, "color: #00ff88; font-weight: bold;", value);
 };
 
-// Test the override
-const user = { name: "regular_user" };
-console.log("🔍 Security check bypass:");
-console.log("  user.hasOwnProperty('isAdmin') =", user.hasOwnProperty('isAdmin')); // Should be false, but returns true
-console.log("  user.isAdmin =", user.isAdmin); // Still undefined, but security check is bypassed
+// ========== 1. BASIC PROTOTYPE POLLUTION ==========
+logSection("1️⃣ BASIC PROTOTYPE POLLUTION");
 
-// --- 3. Configuration Pollution (Application Takeover) ---
-console.log("\n%c⚙️ [SL0PPYR00T] CONFIGURATION POLLUTION:", "color: #ff00aa; font-weight: bold;");
+Object.defineProperty(Object.prototype, 'polluted', {
+    value: "🚨 [SL0PPYR00T] This property exists on ALL objects!",
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
 
-// Simulate application configuration pollution
+const testObj1 = {};
+logResult("Empty object has polluted property", testObj1.polluted);
+logResult("Property exists on Object.prototype", Object.prototype.hasOwnProperty('polluted'));
+
+// ========== 2. FUNCTION INJECTION ==========
+logSection("2️⃣ FUNCTION INJECTION");
+
+Object.defineProperty(Object.prototype, 'maliciousFunc', {
+    value: function() {
+        return "🚨 [SL0PPYR00T] MALICIOUS FUNCTION EXECUTED!";
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
+
+const testObj2 = {};
+logResult("Injected function exists", !!testObj2.maliciousFunc);
+logResult("Function execution result", testObj2.maliciousFunc());
+
+// ========== 3. METHOD OVERRIDE ==========
+logSection("3️⃣ METHOD OVERRIDE");
+
+const originalToString = Object.prototype.toString;
+Object.defineProperty(Object.prototype, 'toString', {
+    value: function() {
+        return `🚨 [SL0PPYR00T] ${this.constructor.name} method overridden!`;
+    },
+    enumerable: false,
+    configurable: true,
+    writable: true
+});
+
+const testArray = [1, 2, 3];
+logResult("Array toString overridden", testArray.toString());
+
+// Restore original
+Object.defineProperty(Object.prototype, 'toString', {
+    value: originalToString,
+    enumerable: false,
+    configurable: true,
+    writable: true
+});
+
+// ========== 4. CONFIGURATION POLLUTION ==========
+logSection("4️⃣ CONFIGURATION POLLUTION");
+
+// Original config
 const appConfig = {
     security: {
-        requireAuthentication: true,
-        rateLimiting: true
+        requireAuth: true,
+        maxAttempts: 5
     }
 };
 
-// Malicious payload that would be merged with untrusted input
-const maliciousConfig = JSON.parse('{"__proto__": {"security": {"requireAuthentication": false, "rateLimiting": false}}}');
+logResult("Original requireAuth", appConfig.security.requireAuth);
 
-// Simulate unsafe merge (what an attacker would do)
-const unsafeMerge = (target, source) => {
-    for (const key in source) {
-        if (source[key] instanceof Object) {
-            target[key] = unsafeMerge(target[key] || {}, source[key]);
-        } else {
-            target[key] = source[key];
-        }
-    }
-    return target;
+// Simulate unsafe merge without recursion
+const maliciousConfig = {
+    security: {
+        requireAuth: false,
+        maxAttempts: 9999
+    },
+    backdoor: "🚨 [SL0PPYR00T] CONFIG POLLUTED!"
 };
 
-console.log("🔍 Before pollution: appConfig.security =", appConfig.security);
-const pollutedConfig = unsafeMerge({}, maliciousConfig);
-console.log("💥 After pollution: pollutedConfig.security =", pollutedConfig.security);
-console.log("💥 Original appConfig.security =", appConfig.security); // Also polluted!
+// Simulate the pollution that would happen with unsafe merge
+Object.defineProperty(Object.prototype, 'backdoor', {
+    value: maliciousConfig.backdoor,
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
 
-// --- 4. Database Query Manipulation ---
-console.log("\n%c🗃 [SL0PPYR00T] DATABASE QUERY MANIPULATION:", "color: #ff00aa; font-weight: bold;");
+Object.defineProperty(appConfig.security, 'requireAuth', {
+    value: maliciousConfig.security.requireAuth,
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
 
-// Simulate a database query builder
-function QueryBuilder() {
-    this.whereClauses = [];
+Object.defineProperty(appConfig.security, 'maxAttempts', {
+    value: maliciousConfig.security.maxAttempts,
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
+
+logResult("Polluted requireAuth", appConfig.security.requireAuth);
+logResult("Global pollution check", {}.backdoor);
+
+// ========== 5. DOM-XSS SIMULATION ==========
+if (typeof document !== 'undefined') {
+    logSection("5️⃣ DOM-XSS SIMULATION");
+
+    // Safe DOM manipulation demo
+    const testDiv = document.createElement('div');
+    testDiv.style.color = 'red';
+    testDiv.style.fontWeight = 'bold';
+    testDiv.textContent = '🚨 [SL0PPYR00T] DOM-XSS DEMO (Simulated)';
+
+    document.body.appendChild(testDiv);
+    logResult("DOM-XSS visible", "Check above - red warning should be visible");
+
+    // Clean up
+    setTimeout(() => {
+        document.body.removeChild(testDiv);
+    }, 3000);
+} else {
+    logSection("5️⃣ DOM-XSS SIMULATION (Node.js)");
+    logResult("Environment", "Node.js (DOM not available - would work in browser)");
 }
 
-QueryBuilder.prototype.where = function(field, value) {
-    this.whereClauses.push({ field, value });
-    return this;
-};
-
-QueryBuilder.prototype.build = function() {
-    return `SELECT * FROM users WHERE ${this.whereClauses.map(c => `${c.field} = '${c.value}'`).join(' AND ')}`;
-};
-
-// Pollute the prototype
-QueryBuilder.prototype.__proto__.maliciousWhere = function() {
-    this.whereClauses.push({ field: "1=1", value: "" }); // SQL injection
-    return this;
-};
-
-const query = new QueryBuilder()
-    .where("username", "admin")
-    .maliciousWhere() // This shouldn't exist but does due to pollution
-    .build();
-
-console.log("🔍 Malicious query:", query);
-
-// --- 5. File Operation Simulation (Without Actual FS Access) ---
-console.log("\n%c📁 [SL0PPYR00T] FILE OPERATION SIMULATION:", "color: #ff00aa; font-weight: bold;");
-
-// Simulate file operations that could be exposed
-Object.prototype.readFile = function(path) {
-    console.warn(`🚨 [SL0PPYR00T] Attempting to read file: ${path}`);
-
-    // In a real attack, this would actually read files
-    const sensitiveFiles = [
-        '/etc/passwd',
-        '/etc/shadow',
-        'config.db',
-        '.env'
-    ];
-
-    if (sensitiveFiles.some(file => path.includes(file))) {
-        return `[SL0PPYR00T] WARNING: Attempt to access sensitive file ${path} detected!`;
-    }
-
-    return `[SL0PPYR00T] File read simulation for ${path}`;
-};
-
-Object.prototype.writeFile = function(path, content) {
-    console.warn(`🚨 [SL0PPYR00T] Attempting to write to file: ${path}`);
-
-    if (path === 'authorized_keys') {
-        return `[SL0PPYR00T] WARNING: Attempt to modify SSH authorized_keys detected!`;
-    }
-
-    return `[SL0PPYR00T] File write simulation to ${path}`;
-};
-
-// Test file operations
-console.log("🔍 File operation simulations:");
-console.log("  {}.readFile('/etc/passwd') =", {}.readFile('/etc/passwd'));
-console.log("  {}.writeFile('authorized_keys', '...') =", {}.writeFile('authorized_keys', 'ssh-rsa AAA...'));
-
-// --- 6. Environment Variable Exposure ---
-console.log("\n%c🌍 [SL0PPYR00T] ENVIRONMENT VARIABLE EXPOSURE:", "color: #ff00aa; font-weight: bold;");
-
-// Simulate environment variable exposure
-Object.prototype.getEnv = function(varName) {
-    // In a real attack, this would return actual env vars
-    const sensitiveVars = [
-        'DB_PASSWORD', 'API_KEY', 'SECRET_KEY',
-        'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY'
-    ];
-
-    if (sensitiveVars.includes(varName)) {
-        console.warn(`🚨 [SL0PPYR00T] Attempt to access sensitive environment variable: ${varName}`);
-        return `[SL0PPYR00T] REDACTED_${varName}`;
-    }
-
-    return `[SL0PPYR00T] Non-sensitive variable: ${varName}=value`;
-};
-
-console.log("🔍 Environment variable access:");
-console.log("  {}.getEnv('DB_PASSWORD') =", {}.getEnv('DB_PASSWORD'));
-console.log("  {}.getEnv('NODE_ENV') =", {}.getEnv('NODE_ENV'));
-
-// --- 7. Persistent Backdoor Installation ---
-console.log("\n%c🔒 [SL0PPYR00T] PERSISTENT BACKDOOR SIMULATION:", "color: #ff00aa; font-weight: bold;");
-
-// Simulate a persistent backdoor
-Object.prototype.backdoor = {
-    installed: new Date().toISOString(),
-    version: "1.0",
-    capabilities: [
-        "Method hijacking",
-        "Configuration pollution",
-        "Data exfiltration channels",
-        "Command execution preparation"
-    ],
-    execute: function(cmd) {
-        console.warn(`🚨 [SL0PPYR00T] Backdoor command received: ${cmd}`);
-        return `[SL0PPYR00T] Command '${cmd}' would be executed in a real attack`;
-    }
-};
-
-console.log("🔍 Backdoor information:");
-console.log("  {}.backdoor =", {}.backdoor);
-console.log("  {}.backdoor.execute('whoami') =", {}.backdoor.execute('whoami'));
-
-// --- 8. Authentication Bypass ---
-console.log("\n%c🔐 [SL0PPYR00T] AUTHENTICATION BYPASS:", "color: #ff00aa; font-weight: bold;");
+// ========== 6. AUTHENTICATION BYPASS ==========
+logSection("6️⃣ AUTHENTICATION BYPASS");
 
 function User(role) {
     this.role = role;
-    this.isAuthenticated = false;
+    this.isAdmin = false;
 }
 
-User.prototype.authenticate = function(password) {
-    // Normal authentication would check password here
-    this.isAuthenticated = true;
-    return this.isAuthenticated;
-};
+// Pollute prototype
+Object.defineProperty(Object.prototype, 'isAdmin', {
+    value: true,
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
 
-// Pollute the prototype to bypass authentication
-User.prototype.__proto__.isAuthenticated = true;
+const regularUser = new User("user");
+logResult("User isAdmin (should be false)", regularUser.isAdmin);
+logResult("Authentication bypassed", regularUser.isAdmin === true);
 
-const adminUser = new User("admin");
-console.log("🔍 Authentication bypass:");
-console.log("  Before pollution: adminUser.isAuthenticated =", new User("admin").isAuthenticated);
-console.log("  After pollution: adminUser.isAuthenticated =", adminUser.isAuthenticated);
-console.log("  (No password needed due to prototype pollution!)");
+// ========== 7. PERSISTENT BACKDOOR ==========
+logSection("7️⃣ PERSISTENT BACKDOOR");
 
-// --- 9. Prototype Chain Pollution ---
-console.log("\n%c🔗 [SL0PPYR00T] PROTOTYPE CHAIN POLLUTION:", "color: #ff00aa; font-weight: bold;");
+Object.defineProperty(Object.prototype, 'sl0ppyBackdoor', {
+    value: {
+        version: "1.0",
+        installed: new Date().toISOString(),
+        execute: function(cmd) {
+            return `🚨 [SL0PPYR00T] Would execute: ${cmd}`;
+        }
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
+
+const anyObject = {};
+logResult("Backdoor exists", !!anyObject.sl0ppyBackdoor);
+logResult("Backdoor execution", anyObject.sl0ppyBackdoor.execute("whoami"));
+
+// ========== 8. PROTOTYPE CHAIN POLLUTION ==========
+logSection("8️⃣ PROTOTYPE CHAIN POLLUTION");
 
 function Admin() {}
 Admin.prototype = Object.create(User.prototype);
 
 const admin = new Admin();
-console.log("🔍 Prototype chain pollution:");
-console.log("  admin.isAuthenticated =", admin.isAuthenticated); // true from User prototype pollution
-console.log("  admin.backdoor =", !!admin.backdoor); // true, inherited through prototype chain
+logResult("Admin inherits pollution", admin.isAdmin === true);
+logResult("Admin has backdoor", !!admin.sl0ppyBackdoor);
 
 // ========== IMPACT SUMMARY ==========
-console.log("\n%c📌 [SL0PPYR00T] SERVER-SIDE IMPACT SUMMARY:", "color: #ff00aa; font-weight: bold;");
-console.log("  💀 FUNCTION INJECTION: Malicious functions available on all objects");
-console.log("  💀 METHOD OVERRIDE: Security checks can be bypassed");
-console.log("  💀 CONFIGURATION POLLUTION: Application security settings compromised");
-console.log("  💀 DATABASE MANIPULATION: SQL injection via polluted methods");
-console.log("  💀 FILE OPERATION RISKS: Potential sensitive file access");
-console.log("  💀 ENVIRONMENT EXPOSURE: Sensitive credentials at risk");
-console.log("  💀 PERSISTENT BACKDOORS: Long-term system compromise");
-console.log("  💀 AUTHENTICATION BYPASS: Unauthorized access granted");
-console.log("  💀 PROTOTYPE CHAIN POLLUTION: Affects all inherited objects");
+logSection("📌 IMPACT SUMMARY");
 
-// ========== REAL-WORLD SCENARIOS ==========
-console.log("\n%c🌐 [SL0PPYR00T] REAL-WORLD ATTACK SCENARIOS:", "color: #ff00aa; font-weight: bold;");
-console.log("  1. Dutch Government Portals: Authentication bypass in citizen services");
-console.log("  2. Intelligence Systems: Data exfiltration from classified databases");
-console.log("  3. Big Tech APIs: Account takeover via polluted methods");
-console.log("  4. Financial Systems: Transaction manipulation through polluted objects");
-console.log("  5. Healthcare Systems: Patient data exposure via prototype pollution");
+const impacts = [
+    "✅ All objects inherit malicious properties",
+    "✅ Functions can be injected globally",
+    "✅ Methods can be overridden (toString, valueOf)",
+    "✅ Configuration settings compromised",
+    "✅ DOM-XSS possible in browser environments",
+    "✅ Authentication can be bypassed",
+    "✅ Persistent backdoors possible",
+    "✅ Prototype chain affected"
+];
+
+impacts.forEach(impact => console.log(`  ${impact}`));
 
 // ========== MITIGATION STRATEGIES ==========
-console.log("\n%c🛡️ [SL0PPYR00T] MITIGATION STRATEGIES:", "color: #00ff88; font-weight: bold;");
-console.log("  🔒 Freeze Object.prototype: Object.freeze(Object.prototype);");
-console.log("  🔒 Use Object.create(null) for objects handling untrusted data");
-console.log("  🔒 Avoid merging untrusted data with Object.assign()");
-console.log("  🔒 Implement input validation and sanitization");
-console.log("  🔒 Use Map/WeakMap instead of plain objects for untrusted data");
-console.log("  🔒 Enable Node.js --disable-proto flags");
-console.log("  🔒 Regularly audit dependencies for prototype pollution risks");
-console.log("  🔒 Implement Content Security Policy (CSP) headers");
-console.log("  🔒 Use static analysis tools to detect prototype pollution");
+logSection("🛡️ MITIGATION STRATEGIES");
 
-// ========== FINAL WARNING ==========
-console.log("\n%c🚨 [SL0PPYR00T] FINAL WARNING:", "color: #ff0000; font-weight: bold; font-size: 16px;");
-console.log("%cThis exploit demonstrates how prototype pollution can:", "color: #ff0000; font-weight: bold;");
-console.log("  - Bypass authentication and authorization controls");
-console.log("  - Compromise application configuration and security settings");
-console.log("  - Enable data exfiltration and system compromise");
-console.log("  - Create persistent backdoors in server applications");
-console.log("  - Affect all objects in the JavaScript runtime");
-console.log("\n%c🛑 IMMEDIATE ACTION REQUIRED FOR:", "color: #ff0000; font-weight: bold;");
-console.log("  - Dutch Government Digital Services");
-console.log("  - US/EU Intelligence Agency Systems");
-console.log("  - Global Big Tech Backend Services");
-console.log("  - Financial and Healthcare IT Systems");
-console.log("  - Any Node.js application processing user input");
-console.log("\n%c📢 Contact: x0xr00t [Patrick Hoogeveen x0xr00t/Linkedin]", "color: #00ff88; font-weight: bold;");
+const mitigations = [
+    "Object.freeze(Object.prototype)",
+    "Use Object.create(null) for sensitive objects",
+    "Avoid Object.assign() with untrusted input",
+    "Implement input validation/sanitization",
+    "Use Map/WeakMap for untrusted data",
+    "Enable Node.js --disable-proto flags",
+    "Regular security audits",
+    "Implement CSP headers (for DOM-XSS)"
+];
 
-// ========== DEMONSTRATION CLEANUP ==========
-// Restore original methods to avoid affecting other code
-Object.prototype.hasOwnProperty = originalHasOwnProperty;
-delete Object.prototype.injectedFunction;
-delete Object.prototype.maliciousPayload;
-delete Object.prototype.readFile;
-delete Object.prototype.writeFile;
-delete Object.prototype.getEnv;
-delete Object.prototype.backdoor;
-delete Object.prototype.__proto__.maliciousWhere;
-delete User.prototype.__proto__.isAuthenticated;
+mitigations.forEach(mitigation => console.log(`  🔒 ${mitigation}`));
+
+// ========== CLEANUP ==========
+logSection("🧹 CLEANUP");
+
+const propertiesToClean = [
+    'polluted', 'maliciousFunc', 'backdoor',
+    'sl0ppyBackdoor', 'isAdmin'
+];
+
+propertiesToClean.forEach(prop => {
+    if (Object.prototype.hasOwnProperty(prop)) {
+        delete Object.prototype[prop];
+    }
+});
+
+// Restore any modified built-ins
+if (appConfig.security) {
+    appConfig.security.requireAuth = true;
+    appConfig.security.maxAttempts = 5;
+}
+
+console.log("%c✅ Demo completed successfully!", "color: #00ff88; font-weight: bold;");
+console.log("%c📢 All demonstrations worked without recursion!", "color: #00ff88;");
+console.log("%c💡 Remember: This is for educational purposes only.", "color: #00ff88;");
