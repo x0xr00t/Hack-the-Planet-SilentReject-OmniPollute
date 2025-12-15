@@ -1,6 +1,10 @@
 ## 🚨 SilentReject-OmniPollute: Critical Prototype Pollution Vulnerability
 * Affecting Dutch Government, Intelligence Agencies, and Global Big Tech Logins
 
+## Update exploit added 
+# OMNI-POLLUTE-GHOST-TOUCH-EXPLOIT_POC.JS
+
+
 ## 📌 Executive Summary
 * On [26-11-2025], a critical prototype pollution vulnerability was discovered in [Redacted Target Organization], affecting Dutch government login panels (military, medical, justice, police), US/EU intelligence agencies (CIA, FBI, Mossad), and global Big Tech platforms (Facebook, Twitter, etc.). Despite multiple attempts to responsibly disclose the issue, they  ignored all communications, leaving millions of users at risk.
 This report provides:
